@@ -23,9 +23,7 @@ export default function AuxPage() {
   }, [])
 
   const handleSongAdded = (type, song, zoneId) => {
-    if (type === 'vibe') {
-      setTimeout(() => setWaveOpen(true), 1200)
-    }
+    if (type === 'vibe') setTimeout(() => setWaveOpen(true), 1200)
     if (song && zoneId) {
       const updated = [{ song, zoneId, ts: Date.now() }, ...mySongs].slice(0, 20)
       setMySongs(updated)
@@ -33,63 +31,82 @@ export default function AuxPage() {
     }
   }
 
-  const zoneNames = { mu: 'MU Patio', library: 'Library Lounge', palm_walk: 'Palm Walk', coor_hall: 'Coor Hall' }
+  const zoneNames = { mu: 'Memorial Union', library: 'Hayden Library', palm_walk: 'Palm Walk', coor_hall: 'Coor Hall' }
 
   const container = { hidden: {}, show: { transition: { staggerChildren: .07 } } }
   const item      = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: .3 } } }
 
   return (
     <div>
-      {/* Header section */}
-      <div className="mx-4 mt-4 mb-3">
-        <div className="flex items-center gap-3 mb-1">
-          <div className="w-10 h-10 rounded-xl bg-purple-900/40 border border-purple-500/30
-                          flex items-center justify-center">
-            <Disc3 size={20} className="text-purple-300" />
+      {/* Header */}
+      <div className="mx-4 mt-4 lg:mt-8 mb-3 lg:mb-4">
+        <div className="flex items-center gap-3 lg:gap-5 mb-1">
+          <div className="w-10 h-10 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-purple-950/60 border border-purple-500/25
+                          flex items-center justify-center shrink-0">
+            <Disc3 size={20} className="text-purple-300 lg:hidden" />
+            <Disc3 size={30} className="text-purple-300 hidden lg:block" />
           </div>
           <div>
-            <h1 className="font-display text-2xl text-white tracking-wide">ZONE AUX</h1>
-            <p className="text-[11px] text-white/40 font-body">shared playlists by location</p>
+            <h1 className="font-display text-2xl lg:text-5xl text-white tracking-wide">ZONE AUX</h1>
+            <p className="text-[11px] lg:text-sm text-white/40 font-body mt-0.5">
+              your music, heard across the world
+            </p>
           </div>
         </div>
       </div>
 
-      {/* XP reminder */}
-      <div className="mx-4 mb-4 flex items-center gap-2 bg-asu-gold/8 border border-asu-gold/20
-                      rounded-xl px-3 py-2.5">
-        <Music2 size={13} className="text-asu-gold flex-shrink-0" />
-        <p className="text-xs text-asu-gold/80 font-body">
-          Every song you add earns <span className="font-semibold text-asu-gold">+10 XP</span>.
-          Add 5 to unlock the Zone DJ badge.
-        </p>
+      {/* XP + cultural reminder */}
+      <div className="mx-4 lg:mx-6 mb-4 lg:mb-6 rounded-xl border border-asu-gold/18 px-3 lg:px-5 py-2.5 lg:py-3.5"
+           style={{ background: 'rgba(255,198,39,0.05)' }}>
+        <div className="flex items-start gap-2 lg:gap-3">
+          <Music2 size={14} className="text-asu-gold flex-shrink-0 mt-0.5 lg:hidden" />
+          <Music2 size={18} className="text-asu-gold flex-shrink-0 mt-0.5 hidden lg:block" />
+          <p className="text-xs lg:text-base text-asu-gold/80 font-body">
+            Add a song from home — let everyone hear where you're from.{' '}
+            <span className="font-semibold text-asu-gold">+10 XP</span> per song. Add 5 to unlock Zone DJ.
+          </p>
+        </div>
       </div>
 
-      <div className="section-label">live zones</div>
+      <div className="section-label lg:text-xs lg:py-4 lg:px-6">live zones</div>
 
       {loading ? (
-        <div className="px-4 space-y-3">
+        <div className="px-4 lg:px-6 grid grid-cols-1 gap-3 lg:gap-4 lg:grid-cols-2">
           {[1,2,3,4].map(i => (
-            <div key={i} className="h-28 rounded-2xl shimmer-bg bg-white/5" />
+            <div key={i} className="h-28 lg:h-36 rounded-2xl shimmer-bg bg-white/5" />
           ))}
         </div>
       ) : (
-        <motion.div className="px-4 space-y-3" variants={container} initial="hidden" animate="show">
+        <motion.div className="px-4 lg:px-6 grid grid-cols-1 gap-3 lg:gap-4 lg:grid-cols-2"
+                    variants={container} initial="hidden" animate="show">
           {zones.map(zone => (
             <motion.div key={zone.id} variants={item} className="card-base">
-              <div className="px-4 py-3 flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-body font-semibold text-white">{zone.name}</p>
-                  <p className="text-[11px] text-white/40">{zone.sublocation}</p>
+              <div className="px-4 lg:px-6 py-3 lg:py-4">
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <p className="text-sm lg:text-base font-body font-semibold text-white">{zone.name}</p>
+                    <p className="text-[11px] lg:text-sm text-white/40 mt-0.5">{zone.sublocation}</p>
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <span className="live-dot" />
+                    <span className="text-[11px] lg:text-sm text-white/45">{zone.listeners} listening</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="live-dot" />
-                  <span className="text-[11px] text-white/50">{zone.listeners} listening</span>
-                </div>
+                {/* Country diversity row */}
+                {zone.country_flags?.length > 0 && (
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <div className="flex gap-0.5">
+                      {zone.country_flags.slice(0, 5).map((f, i) => (
+                        <span key={i} className="text-sm leading-none">{f}</span>
+                      ))}
+                    </div>
+                    <span className="text-[10px] lg:text-xs text-white/30 font-body">
+                      {zone.countries_here} countries here
+                    </span>
+                  </div>
+                )}
               </div>
-              <AuxStrip
-                zone={zone}
-                onSongAdded={(type) => handleSongAdded(type)}
-              />
+              <AuxStrip zone={zone} onSongAdded={(type) => handleSongAdded(type)} />
             </motion.div>
           ))}
         </motion.div>
@@ -98,26 +115,30 @@ export default function AuxPage() {
       {/* My songs */}
       {mySongs.length > 0 && (
         <>
-          <div className="section-label mt-2">songs you've added</div>
-          <div className="px-4 space-y-2 mb-4">
+          <div className="section-label mt-2 lg:text-xs lg:py-4 lg:px-6">songs you've shared</div>
+          <div className="px-4 lg:px-6 space-y-2 lg:space-y-3 mb-6">
             {mySongs.map((item, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * .04 }}
-                className="flex items-center gap-3 bg-white/4 border border-white/8
-                           rounded-xl px-3 py-2.5"
+                className="flex items-center gap-3 rounded-xl px-3 lg:px-5 py-2.5 lg:py-3.5
+                           border border-[#1E2035]"
+                style={{ background: '#13141F' }}
               >
-                <div className="w-7 h-7 rounded-lg bg-purple-900/40 flex items-center justify-center flex-shrink-0">
-                  <Music2 size={12} className="text-purple-300" />
+                <div className="w-7 h-7 lg:w-10 lg:h-10 rounded-lg bg-purple-950/50 flex items-center justify-center flex-shrink-0">
+                  <Music2 size={12} className="text-purple-300 lg:hidden" />
+                  <Music2 size={16} className="text-purple-300 hidden lg:block" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-body font-medium text-white truncate">{item.song}</p>
-                  <p className="text-[10px] text-white/35">{zoneNames[item.zoneId] || item.zoneId}</p>
+                  <p className="text-xs lg:text-sm font-body font-medium text-white truncate">{item.song}</p>
+                  <p className="text-[10px] lg:text-xs text-white/30 mt-0.5">{zoneNames[item.zoneId] || item.zoneId}</p>
                 </div>
-                <span className="text-[10px] font-semibold text-asu-gold bg-asu-gold/10
-                                 px-2 py-0.5 rounded-full">+10 XP</span>
+                <span className="text-[10px] lg:text-xs font-semibold text-asu-gold bg-asu-gold/10
+                                 border border-asu-gold/20 px-2 lg:px-3 py-0.5 rounded-full shrink-0">
+                  +10 XP
+                </span>
               </motion.div>
             ))}
           </div>

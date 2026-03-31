@@ -28,7 +28,7 @@ export default function WaveModal({ open, onClose }) {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-end justify-center max-w-md mx-auto"
+          className="fixed inset-0 z-50 flex items-end lg:items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -38,7 +38,8 @@ export default function WaveModal({ open, onClose }) {
             onClick={onClose}
           />
           <motion.div
-            className="relative w-full bg-[#1a1a1a] border border-asu-gold/20 rounded-t-3xl px-6 py-8 text-center"
+            className="relative w-full max-w-sm mx-4 lg:mx-0 bg-[#1a1a1a] border border-asu-gold/20
+                       rounded-t-3xl lg:rounded-3xl px-6 py-8 text-center"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
@@ -54,22 +55,22 @@ export default function WaveModal({ open, onClose }) {
             {!sent ? (
               <>
                 <h2 className="font-display text-3xl text-asu-gold tracking-wide mb-2">
-                  VIBE MATCH
+                  KINDRED SPIRIT
                 </h2>
                 <p className="text-sm text-white/60 font-body leading-relaxed mb-6">
-                  You and another student queued songs at the same zone back-to-back.
-                  Wave at them?
+                  You and someone else added songs at the same zone at the same time.
+                  Maybe you're not as alone as you feel. Wave?
                 </p>
                 <div className="flex gap-3">
                   <button onClick={handleWave} className="btn-gold flex-1 py-3 text-base">
-                    Wave back ✦
+                    👋 Wave back
                   </button>
                   <button onClick={onClose} className="btn-outline flex-1 py-3">
                     Maybe later
                   </button>
                 </div>
                 <p className="text-[11px] text-white/30 mt-3 font-body">
-                  If they wave back, you both earn +25 XP
+                  If they wave back, you both earn +25 XP and unlock Kindred Spirit
                 </p>
               </>
             ) : (
@@ -78,9 +79,9 @@ export default function WaveModal({ open, onClose }) {
                 animate={{ scale: 1, opacity: 1 }}
               >
                 <h2 className="font-display text-3xl text-asu-gold tracking-wide mb-2">
-                  THEY WAVED BACK!
+                  KINDRED SPIRIT! 🌍
                 </h2>
-                <p className="text-sm text-white/60 font-body">+25 XP earned ✦</p>
+                <p className="text-sm text-white/60 font-body">You found each other. +25 XP earned ✦</p>
               </motion.div>
             )}
           </motion.div>

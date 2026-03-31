@@ -11,3 +11,4 @@ export const addSong    = (zone_id, song)  => api.post('/aux/add', { zone_id, so
 export const sendWave   = ()               => api.post('/wave', { user_id: 'nysa' })
 export const getLeaderboard = ()           => api.get('/leaderboard')
 export const getBadges  = ()               => api.get('/badges')
+export const getStats   = ()               => api.get('/stats')

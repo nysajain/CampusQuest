@@ -6,76 +6,87 @@
   * { box-sizing: border-box; }
 
   body {
-    @apply bg-asu-black text-white font-body;
+    @apply text-white font-body;
+    background-color: #0C0D16;
     -webkit-font-smoothing: antialiased;
     min-height: 100dvh;
   }
 
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { @apply bg-asu-gray-dark rounded-full; }
+  ::-webkit-scrollbar-thumb { background: #2a2b3d; border-radius: 9999px; }
 }
 
 @layer components {
+
+  /* ── Cards ── */
   .card-base {
-    @apply bg-[#1a1a1a] border border-white/10 rounded-2xl overflow-hidden;
+    background: #13141F;
+    @apply border border-[#1E2035] rounded-2xl overflow-hidden;
   }
   .card-gold {
-    @apply bg-[#1a1a1a] border border-asu-gold/30 rounded-2xl overflow-hidden;
+    background: #13141F;
+    @apply border border-asu-gold/40 rounded-2xl overflow-hidden;
+    box-shadow: 0 0 20px rgba(255,198,39,.04), inset 0 1px 0 rgba(255,198,39,.06);
   }
   .card-maroon {
-    @apply bg-[#1a1a1a] border border-asu-maroon/40 rounded-2xl overflow-hidden;
+    background: #13141F;
+    @apply border border-asu-maroon/45 rounded-2xl overflow-hidden;
   }
 
-  .badge-gold {
-    @apply bg-asu-gold/15 text-asu-gold border border-asu-gold/30 text-xs font-body font-medium px-2.5 py-0.5 rounded-full;
-  }
-  .badge-maroon {
-    @apply bg-asu-maroon/20 text-asu-maroon-light border border-asu-maroon/30 text-xs font-body font-medium px-2.5 py-0.5 rounded-full;
-  }
-  .badge-teal {
-    @apply bg-teal-900/40 text-teal-300 border border-teal-500/30 text-xs font-body font-medium px-2.5 py-0.5 rounded-full;
-  }
-  .badge-live {
-    @apply bg-red-900/40 text-red-300 border border-red-500/30 text-xs font-body font-medium px-2.5 py-0.5 rounded-full flex items-center gap-1;
-  }
+  /* ── Stamp badges (passport page) ── */
+  .stamp-gold   { @apply bg-asu-gold/10   text-asu-gold         border border-asu-gold/25   text-xs font-body font-semibold px-3 py-1 rounded-lg; }
+  .stamp-maroon { @apply bg-asu-maroon/15 text-asu-maroon-light border border-asu-maroon/25 text-xs font-body font-semibold px-3 py-1 rounded-lg; }
+  .stamp-teal   { @apply bg-teal-900/30   text-teal-300         border border-teal-500/25   text-xs font-body font-semibold px-3 py-1 rounded-lg; }
 
+  /* ── Inline badges ── */
+  .badge-gold   { @apply bg-asu-gold/12   text-asu-gold         border border-asu-gold/25   text-xs font-body font-medium px-2.5 py-0.5 rounded-full; }
+  .badge-maroon { @apply bg-asu-maroon/18 text-asu-maroon-light border border-asu-maroon/25 text-xs font-body font-medium px-2.5 py-0.5 rounded-full; }
+  .badge-teal   { @apply bg-teal-900/35   text-teal-300         border border-teal-500/25   text-xs font-body font-medium px-2.5 py-0.5 rounded-full; }
+
+  /* ── Quest type pills ── */
+  .quest-icebreaker { @apply bg-teal-900/25   text-teal-300         border border-teal-500/25   text-xs font-body font-medium px-2.5 py-0.5 rounded-full; }
+  .quest-explorer   { @apply bg-asu-gold/12   text-asu-gold         border border-asu-gold/25   text-xs font-body font-medium px-2.5 py-0.5 rounded-full; }
+  .quest-legend     { @apply bg-asu-maroon/18 text-asu-maroon-light border border-asu-maroon/25 text-xs font-body font-medium px-2.5 py-0.5 rounded-full; }
+
+  /* ── Buttons ── */
   .btn-gold {
     @apply bg-asu-gold text-asu-black font-body font-semibold rounded-xl px-4 py-2 text-sm
-           hover:bg-asu-gold-light active:scale-95 transition-all duration-150 cursor-pointer;
+           hover:bg-asu-gold-light active:scale-[0.97] transition-all duration-150 cursor-pointer;
   }
   .btn-outline {
-    @apply border border-white/20 text-white/70 font-body rounded-xl px-4 py-2 text-sm
-           hover:border-asu-gold/50 hover:text-asu-gold active:scale-95 transition-all duration-150 cursor-pointer bg-transparent;
+    @apply border border-white/18 text-white/65 font-body rounded-xl px-4 py-2 text-sm
+           hover:border-asu-gold/45 hover:text-asu-gold active:scale-[0.97] transition-all duration-150 cursor-pointer bg-transparent;
   }
   .btn-maroon {
     @apply bg-asu-maroon text-white font-body font-semibold rounded-xl px-4 py-2 text-sm
-           hover:bg-asu-maroon-light active:scale-95 transition-all duration-150 cursor-pointer;
+           hover:bg-asu-maroon-light active:scale-[0.97] transition-all duration-150 cursor-pointer;
   }
 
-  .nav-pill {
-    @apply flex flex-col items-center gap-1 px-4 py-2 rounded-xl cursor-pointer transition-all duration-200;
-  }
-
+  /* ── XP bar ── */
   .xp-bar {
-    @apply h-2 rounded-full bg-white/10 overflow-hidden;
+    @apply h-1.5 rounded-full overflow-hidden;
+    background: rgba(255,255,255,0.06);
   }
   .xp-fill {
-    @apply h-full rounded-full bg-asu-gold transition-all duration-700 ease-out;
+    @apply h-full rounded-full transition-all duration-700 ease-out;
     background: linear-gradient(90deg, #E6A800, #FFC627, #FFD966);
   }
 
+  /* ── Live indicator ── */
   .live-dot {
-    @apply w-2 h-2 rounded-full bg-emerald-400 inline-block;
+    @apply w-2 h-2 rounded-full bg-emerald-400 inline-block flex-shrink-0;
     animation: pulse 2s ease-in-out infinite;
   }
 
+  /* ── Section label ── */
   .section-label {
-    @apply text-[10px] font-body font-semibold tracking-widest text-white/30 uppercase px-4 py-3;
+    @apply text-[10px] font-body font-semibold tracking-widest text-white/35 uppercase px-4 py-3;
   }
 
+  /* ── Shimmer ── */
   .shimmer-bg {
-    background: linear-gradient(90deg, transparent 0%, rgba(255,198,39,.08) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(59,130,246,.04) 50%, transparent 100%);
     background-size: 200% 100%;
     animation: shimmer 1.8s linear infinite;
   }
@@ -83,5 +94,10 @@
 
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: .6; transform: scale(.9); }
+  50%       { opacity: .55; transform: scale(.88); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
 }
