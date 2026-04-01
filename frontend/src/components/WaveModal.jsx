@@ -38,8 +38,9 @@ export default function WaveModal({ open, onClose }) {
             onClick={onClose}
           />
           <motion.div
-            className="relative w-full max-w-sm mx-4 lg:mx-0 bg-[#1a1a1a] border border-asu-gold/20
+            className="relative w-full max-w-sm mx-4 lg:mx-0 border border-asu-gold/20
                        rounded-t-3xl lg:rounded-3xl px-6 py-8 text-center"
+            style={{ background: 'var(--c-card)' }}
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}

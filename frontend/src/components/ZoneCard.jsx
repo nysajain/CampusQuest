@@ -161,7 +161,7 @@ export default function ZoneCard({ zone, onVibeMatch }) {
                 </button>
               ) : (
                 <div className="text-center text-xs lg:text-sm text-white/35 font-body py-2">
-                  Quest complete — XP earned ✦
+                  Quest complete — Pitchfork Points earned ✦
                 </div>
               )}
             </div>

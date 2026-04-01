@@ -167,14 +167,37 @@ html.light .bg-white\/4             { background-color: rgba(12,13,22,0.04); }
 html.light .bg-white\/5             { background-color: rgba(12,13,22,0.05); }
 html.light .bg-white\/8             { background-color: rgba(12,13,22,0.06); }
 
+/* bracket-notation arbitrary opacity variants */
+html.light .bg-white\/\[0\.02\]    { background-color: rgba(12,13,22,0.02); }
+html.light .bg-white\/\[0\.03\]    { background-color: rgba(12,13,22,0.03); }
+html.light .bg-white\/\[0\.04\]    { background-color: rgba(12,13,22,0.04); }
+html.light .bg-white\/\[0\.05\]    { background-color: rgba(12,13,22,0.05); }
+html.light .bg-white\/\[0\.07\]    { background-color: rgba(12,13,22,0.06); }
+html.light .bg-white\/\[0\.08\]    { background-color: rgba(12,13,22,0.06); }
+
 /* ── Light mode: flip subtle white border utilities ─────────────── */
 html.light .border-white\/8         { border-color: rgba(12,13,22,0.08); }
 html.light .border-white\/10        { border-color: rgba(12,13,22,0.10); }
 html.light .border-white\/15        { border-color: rgba(12,13,22,0.15); }
 html.light .border-white\/18        { border-color: rgba(12,13,22,0.18); }
+html.light .border-white\/20        { border-color: rgba(12,13,22,0.20); }
+html.light .border-white\/25        { border-color: rgba(12,13,22,0.25); }
+
+/* ── Light mode: placeholder text ──────────────────────────────── */
+html.light .placeholder-white\/25::placeholder { color: rgba(12,13,22,0.25); }
+html.light .placeholder-white\/30::placeholder { color: rgba(12,13,22,0.30); }
+
+/* ── Light mode: hardcoded dark bg overrides ────────────────────── */
+html.light .bg-\[\#1a1a1a\]        { background-color: #FFFFFF; }
+html.light .bg-\[\#13141F\]        { background-color: #FFFFFF; }
+html.light .bg-\[\#111\]           { background-color: #F5F0EA; }
+html.light .bg-\[\#111\]\/80       { background-color: rgba(245,240,234,0.80); }
+html.light .bg-\[\#111\]\/90       { background-color: rgba(245,240,234,0.90); }
+html.light .bg-\[\#111\]\/95       { background-color: rgba(245,240,234,0.95); }
 
 /* ── Light mode: border-[#1E2035] hardcoded overrides ──────────── */
-html.light .border-\[\#1E2035\]     { border-color: #E5DFD8; }
+html.light .border-\[\#1E2035\]    { border-color: #E5DFD8; }
+html.light .divide-\[\#1E2035\]  > * + * { border-color: #E5DFD8; }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }

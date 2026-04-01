@@ -274,7 +274,7 @@ export default function HomePage() {
       {/* ── BOTTOM CTA ── */}
       <motion.div {...fadeUp(0.6)} className="mx-4 lg:mx-10">
         <div className="rounded-2xl overflow-hidden relative"
-             style={{ background: 'linear-gradient(135deg, rgba(140,29,64,0.25) 0%, rgba(255,198,39,0.08) 50%, #13141F 100%)' }}>
+             style={{ background: 'var(--c-cta-grad)' }}>
           <div className="border border-asu-gold/20 rounded-2xl px-6 lg:px-10 py-6 lg:py-8 text-center">
             <div className="text-3xl lg:text-4xl mb-3">🌍</div>
             <h3 className="font-display text-2xl lg:text-4xl text-white tracking-wide mb-2">

@@ -60,6 +60,7 @@ export const demoInitialUser = {
   songs_queued: 3,
   badges: ['first_landing', 'zone_dj', 'globe_trotter'],
   completed_quests: [],
+  enrolled_classes: ['CSE 310', 'MAT 243', 'COM 225', 'FSE 150'],
 }
 
 export const demoClassRoster = {

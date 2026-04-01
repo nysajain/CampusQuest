@@ -174,7 +174,7 @@ export default function BadgesPage() {
                                       flex items-center justify-center mb-3 lg:mb-4 relative">
                         <Icon size={20} className="text-white/25 lg:hidden" />
                         <Icon size={28} className="text-white/25 hidden lg:block" />
-                        <Lock size={10} className="text-white/35 absolute -bottom-1 -right-1 bg-[#13141F] rounded-full p-0.5" />
+                        <Lock size={10} className="text-white/35 absolute -bottom-1 -right-1 rounded-full p-0.5" style={{ background: 'var(--c-card)' }} />
                       </div>
                       <p className="text-sm lg:text-base font-body font-semibold text-white leading-tight mb-1">
                         {badge.name}
