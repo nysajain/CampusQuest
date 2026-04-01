@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { getBadges } from '../api'
-import { Star, Lock, Music2, MapPin, Users, Zap, Flame, TrendingUp } from 'lucide-react'
+import { Plane, Globe, Map, Music2, Heart, Star, Flame, Lock } from 'lucide-react'
+import GamificationPanel from '../components/GamificationPanel'
 
 const BADGE_ICONS = {
-  first_quest:     Zap,
-  zone_dj:         Music2,
-  wanderer:        MapPin,
-  social_butterfly:Users,
-  boss_slayer:     Flame,
-  vibe_match:      Star,
-  seven_streak:    TrendingUp,
+  first_landing:    Plane,
+  culture_bridge:   Globe,
+  globe_trotter:    Map,
+  zone_dj:          Music2,
+  kindred_spirit:   Heart,
+  hometown_hero:    Flame,
+  sun_devil_streak: Star,
 }
 
 const BADGE_COLORS = {
-  gold:   { bg: 'bg-asu-gold/15', border: 'border-asu-gold/30', icon: 'text-asu-gold',          label: 'badge-gold'   },
-  maroon: { bg: 'bg-asu-maroon/20', border: 'border-asu-maroon/40', icon: 'text-asu-maroon-light', label: 'badge-maroon' },
-  teal:   { bg: 'bg-teal-900/30', border: 'border-teal-500/30',  icon: 'text-teal-300',          label: 'badge-teal'   },
+  gold:   { bg: 'bg-asu-gold/12',   border: 'border-asu-gold/35',   icon: 'text-asu-gold',        stamp: 'stamp-gold'   },
+  maroon: { bg: 'bg-asu-maroon/18', border: 'border-asu-maroon/40', icon: 'text-asu-maroon-light', stamp: 'stamp-maroon' },
+  teal:   { bg: 'bg-teal-900/25',   border: 'border-teal-500/30',   icon: 'text-teal-300',         stamp: 'stamp-teal'   },
 }
 
 export default function BadgesPage() {
@@ -32,81 +33,122 @@ export default function BadgesPage() {
 
   const earned = badges.filter(b => b.unlocked)
   const locked = badges.filter(b => !b.unlocked)
+  const completionPct = badges.length ? Math.round((earned.length / badges.length) * 100) : 0
 
   const container = { hidden: {}, show: { transition: { staggerChildren: .06 } } }
   const item = {
-    hidden: { opacity: 0, scale: .9 },
-    show:   { opacity: 1, scale: 1, transition: { type: 'spring', stiffness: 260, damping: 20 } }
+    hidden: { opacity: 0, scale: .88, rotate: -2 },
+    show:   { opacity: 1, scale: 1,   rotate: 0, transition: { type: 'spring', stiffness: 220, damping: 18 } }
   }
 
   return (
     <div>
-      {/* Header */}
-      <div className="mx-4 mt-4 mb-4">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-xl bg-asu-gold/15 border border-asu-gold/30
-                          flex items-center justify-center">
-            <Star size={20} className="text-asu-gold" />
-          </div>
-          <div>
-            <h1 className="font-display text-2xl text-white tracking-wide">BADGES</h1>
-            <p className="text-[11px] text-white/40 font-body">
-              {earned.length} earned · {locked.length} locked
-            </p>
-          </div>
-        </div>
+      {/* Passport cover header */}
+      <div className="mx-4 mt-4 lg:mt-8 mb-5 lg:mb-7">
+        <div className="rounded-2xl border border-asu-gold/25 overflow-hidden"
+             style={{ background: 'var(--c-badge-cover-grad)' }}>
+          <div className="px-5 lg:px-8 py-5 lg:py-7">
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg bg-asu-maroon flex items-center justify-center">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" className="lg:hidden">
+                      <path d="M12 3L4 8v8l8 5 8-5V8z" stroke="#FFC627" strokeWidth="1.5" strokeLinejoin="round"/>
+                      <path d="M12 3v13M4 8l8 5 8-5" stroke="#FFC627" strokeWidth="1.5"/>
+                    </svg>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" className="hidden lg:block">
+                      <path d="M12 3L4 8v8l8 5 8-5V8z" stroke="#FFC627" strokeWidth="1.5" strokeLinejoin="round"/>
+                      <path d="M12 3v13M4 8l8 5 8-5" stroke="#FFC627" strokeWidth="1.5"/>
+                    </svg>
+                  </div>
+                  <span className="text-[10px] lg:text-xs font-body font-semibold tracking-widest text-asu-gold/60 uppercase">
+                    Campus Quest
+                  </span>
+                </div>
+                <h1 className="font-display text-3xl lg:text-5xl text-white tracking-wide">PASSPORT</h1>
+                <p className="text-[11px] lg:text-sm text-white/40 font-body mt-1">
+                  {earned.length} stamp{earned.length !== 1 ? 's' : ''} collected · {locked.length} to discover
+                </p>
+              </div>
 
-        {/* Progress bar */}
-        <div className="bg-white/5 rounded-full h-1.5 overflow-hidden">
-          <motion.div
-            className="h-full rounded-full bg-asu-gold"
-            initial={{ width: 0 }}
-            animate={{ width: `${badges.length ? (earned.length / badges.length) * 100 : 0}%` }}
-            transition={{ duration: 1, ease: 'easeOut', delay: .3 }}
-          />
+              {/* Passport progress circle */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="relative w-14 h-14 lg:w-20 lg:h-20">
+                  <svg viewBox="0 0 56 56" className="w-full h-full -rotate-90">
+                    <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="4"/>
+                    <circle cx="28" cy="28" r="22" fill="none" stroke="#FFC627" strokeWidth="4"
+                            strokeLinecap="round"
+                            strokeDasharray={`${2 * Math.PI * 22}`}
+                            strokeDashoffset={`${2 * Math.PI * 22 * (1 - (badges.length ? earned.length / badges.length : 0))}`}
+                            style={{ transition: 'stroke-dashoffset 1s ease' }}/>
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-sm lg:text-base font-display text-asu-gold">
+                      {badges.length ? Math.round((earned.length / badges.length) * 100) : 0}%
+                    </span>
+                  </div>
+                </div>
+                <span className="text-[9px] lg:text-[10px] text-white/30 font-body uppercase tracking-widest">filled</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <p className="text-[10px] text-white/30 mt-1 font-body text-right">
-          {earned.length} / {badges.length} collected
-        </p>
       </div>
 
+      <GamificationPanel
+        pageLabel="passport progression"
+        challenge="Unlock one new stamp by completing a quest type you have not done this session."
+        reward="+40 to +150 Pitchfork Points depending on quest tier"
+        stats={[
+          { label: 'stamps earned', value: earned.length, tone: 'gold' },
+          { label: 'stamps locked', value: locked.length, tone: 'maroon' },
+          { label: 'passport fill', value: `${completionPct}%`, tone: 'teal' },
+        ]}
+        earnedBadges={earned.length}
+        totalBadges={badges.length || 7}
+        className="mx-4 lg:mx-6 mb-4 lg:mb-6"
+      />
+
       {loading ? (
-        <div className="grid grid-cols-2 gap-3 px-4">
+        <div className="grid grid-cols-2 gap-3 lg:gap-4 px-4 lg:px-6 md:grid-cols-3 lg:grid-cols-4">
           {[1,2,3,4,5,6].map(i => (
-            <div key={i} className="h-24 rounded-2xl shimmer-bg bg-white/5" />
+            <div key={i} className="h-44 lg:h-52 rounded-2xl shimmer-bg bg-white/5" />
           ))}
         </div>
       ) : (
         <>
           {earned.length > 0 && (
             <>
-              <div className="section-label">earned</div>
+              <div className="section-label lg:text-xs lg:py-4 lg:px-6">
+                ✦ earned stamps
+              </div>
               <motion.div
-                className="grid grid-cols-2 gap-3 px-4"
+                className="grid grid-cols-2 gap-3 lg:gap-4 px-4 lg:px-6 md:grid-cols-3 lg:grid-cols-4"
                 variants={container} initial="hidden" animate="show"
               >
                 {earned.map(badge => {
                   const Icon = BADGE_ICONS[badge.id] || Star
                   const col  = BADGE_COLORS[badge.color] || BADGE_COLORS.gold
                   return (
-                    <motion.div
-                      key={badge.id}
-                      variants={item}
-                      className={`card-base ${col.border} border p-4`}
-                    >
-                      <div className={`w-10 h-10 rounded-xl ${col.bg} border ${col.border}
-                                      flex items-center justify-center mb-3`}>
-                        <Icon size={18} className={col.icon} />
+                    <motion.div key={badge.id} variants={item}
+                      className={`card-base ${col.border} border p-4 lg:p-6 relative`}>
+                      {/* Stamp corner */}
+                      <div className="absolute top-2.5 right-2.5 lg:top-3.5 lg:right-3.5">
+                        <div className={`w-5 h-5 lg:w-6 lg:h-6 rounded-full border-2 ${col.border} opacity-30`} />
                       </div>
-                      <p className="text-sm font-body font-semibold text-white leading-tight mb-1">
+
+                      <div className={`w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl ${col.bg} border ${col.border}
+                                      flex items-center justify-center mb-3 lg:mb-4`}>
+                        <Icon size={20} className={`${col.icon} lg:hidden`} />
+                        <Icon size={28} className={`${col.icon} hidden lg:block`} />
+                      </div>
+                      <p className="text-sm lg:text-base font-body font-semibold text-white leading-tight mb-1 lg:mb-2">
                         {badge.name}
                       </p>
-                      <p className="text-[10px] text-white/40 font-body leading-snug">
+                      <p className="text-[10px] lg:text-xs text-white/40 font-body leading-snug mb-3">
                         {badge.desc}
                       </p>
-                      <div className="mt-2">
-                        <span className={col.label}>earned ✓</span>
-                      </div>
+                      <span className={col.stamp}>stamped ✓</span>
                     </motion.div>
                   )
                 })}
@@ -116,29 +158,28 @@ export default function BadgesPage() {
 
           {locked.length > 0 && (
             <>
-              <div className="section-label mt-2">locked</div>
+              <div className="section-label mt-2 lg:text-xs lg:py-4 lg:px-6">
+                ○ not yet stamped
+              </div>
               <motion.div
-                className="grid grid-cols-2 gap-3 px-4 mb-4"
+                className="grid grid-cols-2 gap-3 lg:gap-4 px-4 lg:px-6 mb-8 md:grid-cols-3 lg:grid-cols-4"
                 variants={container} initial="hidden" animate="show"
               >
                 {locked.map(badge => {
                   const Icon = BADGE_ICONS[badge.id] || Star
                   return (
-                    <motion.div
-                      key={badge.id}
-                      variants={item}
-                      className="card-base border border-white/8 p-4 opacity-40"
-                    >
-                      <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10
-                                      flex items-center justify-center mb-3 relative">
-                        <Icon size={18} className="text-white/30" />
-                        <Lock size={10} className="text-white/40 absolute -bottom-1 -right-1
-                                                   bg-[#1a1a1a] rounded-full p-0.5" />
+                    <motion.div key={badge.id} variants={item}
+                      className="card-base border border-white/[0.06] p-4 lg:p-6 opacity-35">
+                      <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-white/4 border border-white/10
+                                      flex items-center justify-center mb-3 lg:mb-4 relative">
+                        <Icon size={20} className="text-white/25 lg:hidden" />
+                        <Icon size={28} className="text-white/25 hidden lg:block" />
+                        <Lock size={10} className="text-white/35 absolute -bottom-1 -right-1 rounded-full p-0.5" style={{ background: 'var(--c-card)' }} />
                       </div>
-                      <p className="text-sm font-body font-semibold text-white leading-tight mb-1">
+                      <p className="text-sm lg:text-base font-body font-semibold text-white leading-tight mb-1">
                         {badge.name}
                       </p>
-                      <p className="text-[10px] text-white/40 font-body leading-snug">
+                      <p className="text-[10px] lg:text-xs text-white/35 font-body leading-snug">
                         {badge.desc}
                       </p>
                     </motion.div>
