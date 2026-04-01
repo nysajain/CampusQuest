@@ -5,6 +5,7 @@ import { useUser } from '../context/UserContext'
 import AuxStrip from '../components/AuxStrip'
 import WaveModal from '../components/WaveModal'
 import { Music2, Disc3 } from 'lucide-react'
+import GamificationPanel from '../components/GamificationPanel'
 
 export default function AuxPage() {
   const { user } = useUser()
@@ -35,6 +36,7 @@ export default function AuxPage() {
 
   const container = { hidden: {}, show: { transition: { staggerChildren: .07 } } }
   const item      = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: .3 } } }
+  const totalListeners = zones.reduce((sum, z) => sum + (z.listeners || 0), 0)
 
   return (
     <div>
@@ -63,10 +65,22 @@ export default function AuxPage() {
           <Music2 size={18} className="text-asu-gold flex-shrink-0 mt-0.5 hidden lg:block" />
           <p className="text-xs lg:text-base text-asu-gold/80 font-body">
             Add a song from home — let everyone hear where you're from.{' '}
-            <span className="font-semibold text-asu-gold">+10 XP</span> per song. Add 5 to unlock Zone DJ.
+            <span className="font-semibold text-asu-gold">+10 Pitchfork Points</span> per song. Add 5 to unlock Zone DJ.
           </p>
         </div>
       </div>
+
+      <GamificationPanel
+        pageLabel="aux progression"
+        challenge="Add two songs from different artists to live zone queues."
+        reward="+20 pts and faster Zone DJ unlock"
+        stats={[
+          { label: 'songs queued', value: user?.songs_queued ?? 0, tone: 'violet' },
+          { label: 'my shares', value: mySongs.length, tone: 'gold' },
+          { label: 'listeners live', value: loading ? '...' : totalListeners, tone: 'teal' },
+        ]}
+        className="mx-4 lg:mx-6 mb-4 lg:mb-5"
+      />
 
       <div className="section-label lg:text-xs lg:py-4 lg:px-6">live zones</div>
 
@@ -125,7 +139,7 @@ export default function AuxPage() {
                 transition={{ delay: i * .04 }}
                 className="flex items-center gap-3 rounded-xl px-3 lg:px-5 py-2.5 lg:py-3.5
                            border border-[#1E2035]"
-                style={{ background: '#13141F' }}
+                style={{ background: 'var(--c-card)' }}
               >
                 <div className="w-7 h-7 lg:w-10 lg:h-10 rounded-lg bg-purple-950/50 flex items-center justify-center flex-shrink-0">
                   <Music2 size={12} className="text-purple-300 lg:hidden" />
@@ -137,7 +151,7 @@ export default function AuxPage() {
                 </div>
                 <span className="text-[10px] lg:text-xs font-semibold text-asu-gold bg-asu-gold/10
                                  border border-asu-gold/20 px-2 lg:px-3 py-0.5 rounded-full shrink-0">
-                  +10 XP
+                  +10 pts
                 </span>
               </motion.div>
             ))}

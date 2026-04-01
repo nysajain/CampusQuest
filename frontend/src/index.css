@@ -2,35 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Theme tokens ─────────────────────────────────────────────── */
+:root {
+  /* dark (default) */
+  --c-bg:               #0C0D16;
+  --c-card:             #13141F;
+  --c-card-alt:         #101223;
+  --c-card-warm:        #1a1208;
+  --c-border:           #1E2035;
+  --c-glass:            rgba(9,10,18,0.97);
+  --c-text:             #FFFFFF;
+  --c-scrollbar:        #2a2b3d;
+
+  --c-panel-grad:       linear-gradient(135deg, #13141F 0%, #101223 100%);
+  --c-sidebar-grad:     linear-gradient(180deg, #09090F 0%, #0C0D16 100%);
+  --c-badge-cover-grad: linear-gradient(135deg, #1a1208 0%, #13141F 70%);
+  --c-hero-grad:        linear-gradient(135deg, #1a1208 0%, #161625 60%, #0C0D16 100%);
+  --c-strip-grad:       linear-gradient(135deg, #13141F 0%, #0F1020 100%);
+  --c-cta-grad:         linear-gradient(135deg, rgba(140,29,64,0.12) 0%, #13141F 100%);
+}
+
+html.light {
+  --c-bg:               #F7F3EE;
+  --c-card:             #FFFFFF;
+  --c-card-alt:         #F2EDE7;
+  --c-card-warm:        #FBF4EC;
+  --c-border:           #E5DFD8;
+  --c-glass:            rgba(247,243,238,0.97);
+  --c-text:             #0C0D16;
+  --c-scrollbar:        #D0C9C0;
+
+  --c-panel-grad:       linear-gradient(135deg, #FFFFFF 0%, #F5F0EA 100%);
+  --c-sidebar-grad:     linear-gradient(180deg, #F5F0EA 0%, #F7F3EE 100%);
+  --c-badge-cover-grad: linear-gradient(135deg, #FFF8F0 0%, #FFFFFF 70%);
+  --c-hero-grad:        linear-gradient(135deg, #FFF8F0 0%, #F5F0EA 60%, #F7F3EE 100%);
+  --c-strip-grad:       linear-gradient(135deg, #FFFFFF 0%, #F5F0EA 100%);
+  --c-cta-grad:         linear-gradient(135deg, rgba(140,29,64,0.08) 0%, #FFFFFF 100%);
+}
+
 @layer base {
   * { box-sizing: border-box; }
 
   body {
-    @apply text-white font-body;
-    background-color: #0C0D16;
+    @apply font-body;
+    background-color: var(--c-bg);
+    color: var(--c-text);
     -webkit-font-smoothing: antialiased;
     min-height: 100dvh;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #2a2b3d; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb { background: var(--c-scrollbar); border-radius: 9999px; }
 }
 
 @layer components {
 
   /* ── Cards ── */
   .card-base {
-    background: #13141F;
-    @apply border border-[#1E2035] rounded-2xl overflow-hidden;
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    @apply rounded-2xl overflow-hidden;
   }
   .card-gold {
-    background: #13141F;
+    background: var(--c-card);
     @apply border border-asu-gold/40 rounded-2xl overflow-hidden;
     box-shadow: 0 0 20px rgba(255,198,39,.04), inset 0 1px 0 rgba(255,198,39,.06);
   }
   .card-maroon {
-    background: #13141F;
+    background: var(--c-card);
     @apply border border-asu-maroon/45 rounded-2xl overflow-hidden;
   }
 
@@ -55,18 +96,23 @@
            hover:bg-asu-gold-light active:scale-[0.97] transition-all duration-150 cursor-pointer;
   }
   .btn-outline {
-    @apply border border-white/18 text-white/65 font-body rounded-xl px-4 py-2 text-sm
+    @apply border font-body rounded-xl px-4 py-2 text-sm
            hover:border-asu-gold/45 hover:text-asu-gold active:scale-[0.97] transition-all duration-150 cursor-pointer bg-transparent;
+    border-color: var(--c-border);
+    color: color-mix(in srgb, var(--c-text) 65%, transparent);
   }
   .btn-maroon {
     @apply bg-asu-maroon text-white font-body font-semibold rounded-xl px-4 py-2 text-sm
            hover:bg-asu-maroon-light active:scale-[0.97] transition-all duration-150 cursor-pointer;
   }
 
-  /* ── XP bar ── */
+  /* ── XP / Pitchfork Points bar ── */
   .xp-bar {
     @apply h-1.5 rounded-full overflow-hidden;
     background: rgba(255,255,255,0.06);
+  }
+  html.light .xp-bar {
+    background: rgba(12,13,22,0.10);
   }
   .xp-fill {
     @apply h-full rounded-full transition-all duration-700 ease-out;
@@ -81,7 +127,8 @@
 
   /* ── Section label ── */
   .section-label {
-    @apply text-[10px] font-body font-semibold tracking-widest text-white/35 uppercase px-4 py-3;
+    @apply text-[10px] font-body font-semibold tracking-widest uppercase px-4 py-3;
+    color: color-mix(in srgb, var(--c-text) 35%, transparent);
   }
 
   /* ── Shimmer ── */
@@ -90,7 +137,44 @@
     background-size: 200% 100%;
     animation: shimmer 1.8s linear infinite;
   }
+  html.light .shimmer-bg {
+    background: linear-gradient(90deg, transparent 0%, rgba(12,13,22,.04) 50%, transparent 100%);
+    background-size: 200% 100%;
+  }
 }
+
+/* ── Light mode: flip Tailwind white text utilities ────────────── */
+html.light .text-white              { color: #0C0D16; }
+html.light .text-white\/10          { color: rgba(12,13,22,0.10); }
+html.light .text-white\/15          { color: rgba(12,13,22,0.15); }
+html.light .text-white\/20          { color: rgba(12,13,22,0.20); }
+html.light .text-white\/25          { color: rgba(12,13,22,0.25); }
+html.light .text-white\/30          { color: rgba(12,13,22,0.30); }
+html.light .text-white\/35          { color: rgba(12,13,22,0.35); }
+html.light .text-white\/40          { color: rgba(12,13,22,0.40); }
+html.light .text-white\/45          { color: rgba(12,13,22,0.45); }
+html.light .text-white\/50          { color: rgba(12,13,22,0.50); }
+html.light .text-white\/55          { color: rgba(12,13,22,0.55); }
+html.light .text-white\/60          { color: rgba(12,13,22,0.60); }
+html.light .text-white\/65          { color: rgba(12,13,22,0.65); }
+html.light .text-white\/70          { color: rgba(12,13,22,0.70); }
+html.light .text-white\/75          { color: rgba(12,13,22,0.75); }
+html.light .text-white\/80          { color: rgba(12,13,22,0.80); }
+
+/* ── Light mode: flip subtle white bg overlays ─────────────────── */
+html.light .bg-white\/3             { background-color: rgba(12,13,22,0.03); }
+html.light .bg-white\/4             { background-color: rgba(12,13,22,0.04); }
+html.light .bg-white\/5             { background-color: rgba(12,13,22,0.05); }
+html.light .bg-white\/8             { background-color: rgba(12,13,22,0.06); }
+
+/* ── Light mode: flip subtle white border utilities ─────────────── */
+html.light .border-white\/8         { border-color: rgba(12,13,22,0.08); }
+html.light .border-white\/10        { border-color: rgba(12,13,22,0.10); }
+html.light .border-white\/15        { border-color: rgba(12,13,22,0.15); }
+html.light .border-white\/18        { border-color: rgba(12,13,22,0.18); }
+
+/* ── Light mode: border-[#1E2035] hardcoded overrides ──────────── */
+html.light .border-\[\#1E2035\]     { border-color: #E5DFD8; }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }

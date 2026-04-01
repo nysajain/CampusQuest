@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { getStats } from '../api'
 import { useUser } from '../context/UserContext'
 import { MapPin, Music2, BookOpen, Trophy, ArrowRight, Zap, Globe, Users } from 'lucide-react'
+import GamificationPanel from '../components/GamificationPanel'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 18 },
@@ -112,11 +113,23 @@ export default function HomePage() {
         </div>
       </div>
 
+      <GamificationPanel
+        pageLabel="home progression"
+        challenge="Complete one zone quest and make one new connection today."
+        reward="+60 pts +1 stamp progress"
+        stats={[
+          { label: 'quests done', value: user?.quests_done ?? 0, tone: 'gold' },
+          { label: 'connections', value: user?.connections_made ?? 0, tone: 'teal' },
+          { label: 'cultures met', value: user?.cultures_met ?? 0, tone: 'blue' },
+        ]}
+        className="mx-4 lg:mx-10 mb-6 lg:mb-8"
+      />
+
       {/* ── LIVE CAMPUS STRIP ── */}
       {stats && (
         <motion.div {...fadeUp(0.22)} className="mx-4 lg:mx-10 mb-6 lg:mb-8">
           <div className="rounded-2xl border border-[#1E2035] overflow-hidden"
-               style={{ background: 'linear-gradient(135deg, #13141F 0%, #0F1020 100%)' }}>
+               style={{ background: 'var(--c-strip-grad)' }}>
             <div className="px-4 lg:px-7 py-4 lg:py-5">
               <div className="flex items-center gap-2 mb-3 lg:mb-4">
                 <span className="live-dot" />
@@ -196,8 +209,8 @@ export default function HomePage() {
             },
             {
               n: '03', emoji: '✦',  color: 'border-asu-maroon/20 bg-asu-maroon/[0.06]',
-              title: 'Earn XP, find your people',
-              desc: "Every quest earns XP and passport stamps. Enough stamps and you're on the leaderboard. Enough connections and you've found your tribe.",
+              title: 'Earn Pitchfork Points, find your people',
+              desc: "Every quest earns Pitchfork Points and passport stamps. Enough stamps and you're on the leaderboard. Enough connections and you've found your tribe.",
             },
           ].map(({ n, emoji, color, title, desc }, i) => (
             <motion.div key={n} {...fadeUp(0.28 + i * 0.06)}
@@ -233,7 +246,7 @@ export default function HomePage() {
               onClick={() => navigate(tab)}
               className="text-left rounded-2xl border border-[#1E2035] px-5 lg:px-6 py-5 lg:py-6
                          hover:border-white/15 transition-all duration-200 group"
-              style={{ background: '#13141F' }}
+              style={{ background: 'var(--c-card)' }}
             >
               <div className={`w-10 h-10 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl border ${bg}
                               flex items-center justify-center mb-3 lg:mb-4`}>
@@ -268,7 +281,7 @@ export default function HomePage() {
               YOUR FIRST QUEST IS<br /><span className="text-asu-gold">30 SECONDS AWAY</span>
             </h3>
             <p className="text-sm lg:text-base text-white/45 font-body mb-5 lg:mb-6 max-w-sm mx-auto">
-              Pick a zone, do something small, earn XP. That's it.
+              Pick a zone, do something small, earn Pitchfork Points. That's it.
               The hard part isn't the quest — it's deciding to start.
             </p>
             <button

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { getBadges } from '../api'
 import { Plane, Globe, Map, Music2, Heart, Star, Flame, Lock } from 'lucide-react'
+import GamificationPanel from '../components/GamificationPanel'
 
 const BADGE_ICONS = {
   first_landing:    Plane,
@@ -32,6 +33,7 @@ export default function BadgesPage() {
 
   const earned = badges.filter(b => b.unlocked)
   const locked = badges.filter(b => !b.unlocked)
+  const completionPct = badges.length ? Math.round((earned.length / badges.length) * 100) : 0
 
   const container = { hidden: {}, show: { transition: { staggerChildren: .06 } } }
   const item = {
@@ -44,7 +46,7 @@ export default function BadgesPage() {
       {/* Passport cover header */}
       <div className="mx-4 mt-4 lg:mt-8 mb-5 lg:mb-7">
         <div className="rounded-2xl border border-asu-gold/25 overflow-hidden"
-             style={{ background: 'linear-gradient(135deg, #1a1208 0%, #13141F 70%)' }}>
+             style={{ background: 'var(--c-badge-cover-grad)' }}>
           <div className="px-5 lg:px-8 py-5 lg:py-7">
             <div className="flex items-start justify-between">
               <div>
@@ -92,6 +94,20 @@ export default function BadgesPage() {
           </div>
         </div>
       </div>
+
+      <GamificationPanel
+        pageLabel="passport progression"
+        challenge="Unlock one new stamp by completing a quest type you have not done this session."
+        reward="+40 to +150 Pitchfork Points depending on quest tier"
+        stats={[
+          { label: 'stamps earned', value: earned.length, tone: 'gold' },
+          { label: 'stamps locked', value: locked.length, tone: 'maroon' },
+          { label: 'passport fill', value: `${completionPct}%`, tone: 'teal' },
+        ]}
+        earnedBadges={earned.length}
+        totalBadges={badges.length || 7}
+        className="mx-4 lg:mx-6 mb-4 lg:mb-6"
+      />
 
       {loading ? (
         <div className="grid grid-cols-2 gap-3 lg:gap-4 px-4 lg:px-6 md:grid-cols-3 lg:grid-cols-4">

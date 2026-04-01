@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { getLeaderboard } from '../api'
 import { Trophy, Zap, Globe } from 'lucide-react'
+import GamificationPanel from '../components/GamificationPanel'
 
 const RANK_COLORS = {
   1: { num: 'text-asu-gold',   bg: 'bg-asu-gold/15',   border: 'border-asu-gold/30'   },
@@ -32,6 +33,9 @@ export default function LeaderboardPage() {
   }, [])
 
   const top3 = board.slice(0, 3)
+  const myEntry = board.find(e => e.is_me)
+  const topXp = top3[0]?.xp || 0
+  const gapToTop = myEntry ? Math.max(0, topXp - myEntry.xp) : null
 
   // count unique countries in the leaderboard
   const uniqueCountries = [...new Set(board.map(e => e.country).filter(Boolean))]
@@ -59,6 +63,19 @@ export default function LeaderboardPage() {
           </div>
         )}
       </div>
+
+      <GamificationPanel
+        pageLabel="leaderboard progression"
+        challenge="Earn at least 60 Pitchfork Points today to move up the explorers board."
+        reward={gapToTop !== null ? `${gapToTop} pts gap to #1` : 'climb into top 3'}
+        stats={[
+          { label: 'my rank', value: myEntry ? `#${myEntry.rank}` : '-', tone: 'gold' },
+          { label: 'my pts', value: myEntry ? myEntry.xp : '-', tone: 'teal' },
+          { label: 'countries', value: uniqueCountries.length, tone: 'blue' },
+        ]}
+        myRank={myEntry?.rank}
+        className="mx-4 lg:mx-4 mb-4 lg:mb-6"
+      />
 
       {loading ? (
         <div className="px-4 space-y-3">
@@ -89,7 +106,7 @@ export default function LeaderboardPage() {
                     {top3[1].flag && <div className="text-lg lg:text-xl mb-1">{top3[1].flag}</div>}
                     <p className="text-xs lg:text-sm font-body font-semibold text-white truncate">{top3[1].name.split(' ')[0]}</p>
                     <p className="text-[9px] lg:text-xs text-white/35 mt-0.5">{top3[1].country}</p>
-                    <p className="text-[10px] lg:text-sm text-white/40 mt-1">{top3[1].xp} XP</p>
+                    <p className="text-[10px] lg:text-sm text-white/40 mt-1">{top3[1].xp} pts</p>
                   </motion.div>
                 )}
 
@@ -106,7 +123,7 @@ export default function LeaderboardPage() {
                     {top3[0].flag && <div className="text-xl lg:text-2xl mb-1">{top3[0].flag}</div>}
                     <p className="text-xs lg:text-sm font-body font-semibold text-white truncate">{top3[0].name.split(' ')[0]}</p>
                     <p className="text-[9px] lg:text-xs text-white/40 mt-0.5">{top3[0].country}</p>
-                    <p className="text-[10px] lg:text-sm text-asu-gold mt-1 font-medium">{top3[0].xp} XP</p>
+                    <p className="text-[10px] lg:text-sm text-asu-gold mt-1 font-medium">{top3[0].xp} pts</p>
                   </motion.div>
                 )}
 
@@ -122,7 +139,7 @@ export default function LeaderboardPage() {
                     {top3[2].flag && <div className="text-lg lg:text-xl mb-1">{top3[2].flag}</div>}
                     <p className="text-xs lg:text-sm font-body font-semibold text-white truncate">{top3[2].name.split(' ')[0]}</p>
                     <p className="text-[9px] lg:text-xs text-white/35 mt-0.5">{top3[2].country}</p>
-                    <p className="text-[10px] lg:text-sm text-white/40 mt-1">{top3[2].xp} XP</p>
+                    <p className="text-[10px] lg:text-sm text-white/40 mt-1">{top3[2].xp} pts</p>
                   </motion.div>
                 )}
               </div>
@@ -166,10 +183,22 @@ export default function LeaderboardPage() {
                             {entry.name}
                           </p>
                           {entry.is_me && <span className="text-[10px] lg:text-xs text-asu-gold/55 shrink-0">(you)</span>}
+                          {!entry.is_me && entry.shared_classes?.length > 0 && (
+                            <span className="text-[9px] lg:text-[10px] font-body font-semibold shrink-0
+                                             bg-teal-900/40 border border-teal-500/30 text-teal-300
+                                             px-1.5 py-0.5 rounded-full">
+                              class match
+                            </span>
+                          )}
                         </div>
                         <div className="flex items-center gap-1.5 mt-0.5">
                           {entry.flag && <span className="text-xs lg:text-sm leading-none">{entry.flag}</span>}
                           <p className="text-[10px] lg:text-xs text-white/30">{entry.country} · {entry.title}</p>
+                          {!entry.is_me && entry.shared_classes?.length > 0 && (
+                            <p className="text-[10px] lg:text-xs text-teal-400/60 truncate">
+                              {entry.shared_classes.join(', ')}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -188,7 +217,7 @@ export default function LeaderboardPage() {
 
               {/* CTA */}
               <div className="mx-4 lg:mx-0 mb-6 rounded-2xl border border-asu-maroon/25 px-4 lg:px-6 py-4 lg:py-5"
-                   style={{ background: 'linear-gradient(135deg, rgba(140,29,64,0.12) 0%, #13141F 100%)' }}>
+                   style={{ background: 'var(--c-cta-grad)' }}>
                 <p className="text-xs lg:text-base text-asu-maroon-light font-body font-semibold mb-1">
                   You belong on this list, Sun Devil 🌵
                 </p>

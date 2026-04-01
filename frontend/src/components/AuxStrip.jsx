@@ -24,7 +24,7 @@ export default function AuxStrip({ zone, onSongAdded }) {
     try {
       const { data } = await addSong(zone.id, song.trim())
       applyXP(10)
-      toast.success(`🎵 +10 XP — "${song.substring(0, 28)}" added!`)
+      toast.success(`🎵 +10 Pitchfork Points — "${song.substring(0, 28)}" added!`)
       if (data.newly_unlocked?.length) {
         setTimeout(() => toast.success('🏅 Badge unlocked: Zone DJ!'), 1600)
       }
@@ -71,7 +71,7 @@ export default function AuxStrip({ zone, onSongAdded }) {
         >
           <Plus size={13} className="lg:hidden" />
           <Plus size={16} className="hidden lg:block" />
-          add a song · +10 XP
+          add a song · +10 pts
         </button>
       </div>
 

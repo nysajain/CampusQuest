@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
-import { Home, MapPin, Music2, BookOpen, Trophy } from 'lucide-react'
+import { Home, MapPin, Music2, BookOpen, Trophy, Sun, Moon } from 'lucide-react'
 import { useUser } from '../context/UserContext'
+import { useTheme } from '../context/ThemeContext'
 import { motion } from 'framer-motion'
 
 const tabs = [
@@ -13,6 +14,7 @@ const tabs = [
 
 export default function BottomNav() {
   const { user } = useUser()
+  const { theme, toggleTheme } = useTheme()
   const xpPct = user
     ? Math.min(100, Math.round(((user.xp - (user.xp_next - 200)) / 200) * 100))
     : 0
@@ -22,7 +24,7 @@ export default function BottomNav() {
       {/* ── Mobile: bottom tab bar ── */}
       <nav className="lg:hidden fixed bottom-0 left-0 w-full z-40
                       backdrop-blur-md border-t border-[#1E2035]"
-           style={{ background: 'rgba(9,10,18,0.97)' }}>
+           style={{ background: 'var(--c-glass)' }}>
         <div className="flex max-w-md mx-auto">
           {tabs.map(({ to, icon: Icon, label }) => (
             <NavLink
@@ -50,7 +52,7 @@ export default function BottomNav() {
       {/* ── Desktop: left sidebar ── */}
       <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-0 h-screen z-40
                         border-r border-[#1E2035]"
-             style={{ background: 'linear-gradient(180deg, #09090F 0%, #0C0D16 100%)' }}>
+             style={{ background: 'var(--c-sidebar-grad)' }}>
 
         {/* Accent bar — maroon to gold */}
         <div className="h-0.5 w-full shrink-0"
@@ -101,8 +103,8 @@ export default function BottomNav() {
 
         {/* User passport card */}
         {user && (
-          <div className="mx-3 mb-4 rounded-2xl border border-[#1E2035] overflow-hidden"
-               style={{ background: '#13141F' }}>
+          <div className="mx-3 mb-3 rounded-2xl border border-[#1E2035] overflow-hidden"
+               style={{ background: 'var(--c-card)' }}>
             <div className="px-4 py-3">
               <div className="flex items-center gap-2.5 mb-3">
                 <div className="w-9 h-9 rounded-full bg-asu-maroon flex items-center justify-center
@@ -114,7 +116,7 @@ export default function BottomNav() {
                     <span className="text-sm font-body font-semibold text-white truncate">{user.name}</span>
                     {user.flag && <span className="text-base leading-none">{user.flag}</span>}
                   </div>
-                  <div className="text-[10px] text-asu-gold mt-0.5">{user.xp} XP · Lv{user.level} {user.title}</div>
+                  <div className="text-[10px] text-asu-gold mt-0.5">{user.xp} pts · Lv{user.level} {user.title}</div>
                 </div>
               </div>
               <div className="xp-bar">
@@ -137,6 +139,22 @@ export default function BottomNav() {
             </div>
           </div>
         )}
+
+        {/* Theme toggle */}
+        <div className="mx-3 mb-5">
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-[#1E2035]
+                       text-white/35 hover:text-asu-gold hover:border-asu-gold/30 transition-all duration-200
+                       font-body text-sm"
+            style={{ background: 'var(--c-card)' }}
+          >
+            {theme === 'dark'
+              ? <><Sun size={16} /><span>Light mode</span></>
+              : <><Moon size={16} /><span>Dark mode</span></>
+            }
+          </button>
+        </div>
       </aside>
     </>
   )

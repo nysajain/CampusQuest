@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { UserProvider, useUser } from './context/UserContext'
+import { ThemeProvider } from './context/ThemeContext'
 import BottomNav from './components/BottomNav'
 import HomePage from './pages/HomePage'
 import QuestsPage from './pages/QuestsPage'
@@ -35,8 +36,10 @@ function Inner() {
 
 export default function App() {
   return (
-    <UserProvider>
-      <Inner />
-    </UserProvider>
+    <ThemeProvider>
+      <UserProvider>
+        <Inner />
+      </UserProvider>
+    </ThemeProvider>
   )
 }

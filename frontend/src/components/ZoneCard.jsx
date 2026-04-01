@@ -34,7 +34,7 @@ export default function ZoneCard({ zone, onVibeMatch }) {
       const { data } = await completeQuest(zone.quest.id, zone.id)
       applyXP(data.xp_gained)
       setQuestDone(true)
-      toast.success(`⚡ +${data.xp_gained} XP — quest complete!`)
+      toast.success(`⚡ +${data.xp_gained} Pitchfork Points — quest complete!`)
       if (data.newly_unlocked?.length) {
         data.newly_unlocked.forEach(() =>
           setTimeout(() => toast.success('🏅 Passport stamp unlocked!'), 1800)
@@ -94,9 +94,16 @@ export default function ZoneCard({ zone, onVibeMatch }) {
                 {zone.countries_here > 3 && <span className="ml-0.5">+{zone.countries_here - 3}</span>}
               </span>
             )}
+            {zone.classmates_here > 0 && (
+              <span className="text-[10px] lg:text-xs font-body font-semibold
+                               bg-teal-900/40 border border-teal-500/30 text-teal-300
+                               px-1.5 py-0.5 rounded-full">
+                {zone.classmates_here} classmate{zone.classmates_here !== 1 ? 's' : ''} here
+              </span>
+            )}
             <span className="flex items-center gap-1 text-[11px] lg:text-sm text-asu-gold font-medium ml-auto">
               <Zap size={10} className="lg:hidden" /><Zap size={13} className="hidden lg:block" />
-              +{zone.quest?.xp} XP
+              +{zone.quest?.xp} pts
             </span>
           </div>
         </div>

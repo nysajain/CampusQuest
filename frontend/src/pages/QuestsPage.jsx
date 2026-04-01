@@ -5,6 +5,7 @@ import { useUser } from '../context/UserContext'
 import ZoneCard from '../components/ZoneCard'
 import WaveModal from '../components/WaveModal'
 import { Zap, Users, Globe } from 'lucide-react'
+import GamificationPanel from '../components/GamificationPanel'
 
 export default function QuestsPage() {
   const { user } = useUser()
@@ -40,7 +41,7 @@ export default function QuestsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: .1 }}
           className="mx-4 mt-4 lg:mt-8 lg:mb-4 mb-2 rounded-2xl border border-asu-gold/20 overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, #1a1208 0%, #161625 60%, #0C0D16 100%)' }}
+          style={{ background: 'var(--c-hero-grad)' }}
         >
           <div className="px-4 py-4 lg:px-8 lg:py-7">
             {/* Welcome line */}
@@ -70,6 +71,18 @@ export default function QuestsPage() {
           </div>
         </motion.div>
       )}
+
+      <GamificationPanel
+        pageLabel="quest progression"
+        challenge="Finish one icebreaker quest in a zone you have not completed yet."
+        reward="+60 pts and possible kindred spirit trigger"
+        stats={[
+          { label: 'live zones', value: loading ? '...' : zones.length, tone: 'gold' },
+          { label: 'quests done', value: user?.quests_done ?? 0, tone: 'teal' },
+          { label: 'cultures met', value: user?.cultures_met ?? 0, tone: 'blue' },
+        ]}
+        className="mx-4 lg:mx-6 mb-3 lg:mb-4"
+      />
 
       {/* Live diversity banner */}
       {zones.length > 0 && (
@@ -113,7 +126,7 @@ export default function QuestsPage() {
         {[
           { n:'1', emoji:'📍', text:"Show up to a zone — you're surrounded by students from around the world. You already have something in common." },
           { n:'2', emoji:'🤝', text:'Complete icebreaker quests. Low stakes, real connection. Ask where someone is from. That\'s it.' },
-          { n:'3', emoji:'🎵', text:'Add songs from home to the zone queue. +10 XP, and your music plays for everyone.' },
+          { n:'3', emoji:'🎵', text:'Add songs from home to the zone queue. +10 Pitchfork Points, and your music plays for everyone.' },
           { n:'4', emoji:'🌍', text:'Match with a kindred spirit — someone else who queued a song at the same time. Wave to connect.' },
         ].map(({ n, emoji, text }) => (
           <div key={n} className="flex gap-3 lg:gap-4 items-start">

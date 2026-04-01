@@ -17,7 +17,7 @@ export default function WaveModal({ open, onClose }) {
       if (data.newly_unlocked?.length) {
         setTimeout(() => toast.success('🏅 Badge unlocked: Vibe Match!'), 800)
       }
-      toast.success(`+${data.xp_gained} XP — they waved back!`)
+      toast.success(`+${data.xp_gained} Pitchfork Points — they waved back!`)
       setTimeout(() => { setSent(false); onClose(); refresh() }, 2000)
     } catch {
       toast.error('Something went wrong')
@@ -70,7 +70,7 @@ export default function WaveModal({ open, onClose }) {
                   </button>
                 </div>
                 <p className="text-[11px] text-white/30 mt-3 font-body">
-                  If they wave back, you both earn +25 XP and unlock Kindred Spirit
+                  If they wave back, you both earn +25 Pitchfork Points and unlock Kindred Spirit
                 </p>
               </>
             ) : (
@@ -81,7 +81,7 @@ export default function WaveModal({ open, onClose }) {
                 <h2 className="font-display text-3xl text-asu-gold tracking-wide mb-2">
                   KINDRED SPIRIT! 🌍
                 </h2>
-                <p className="text-sm text-white/60 font-body">You found each other. +25 XP earned ✦</p>
+                <p className="text-sm text-white/60 font-body">You found each other. +25 Pitchfork Points earned ✦</p>
               </motion.div>
             )}
           </motion.div>
